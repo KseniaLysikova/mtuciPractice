@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.utils.http import urlencode
+from .forms import ParsingForm
 from .models import Job
 import requests
 import json
@@ -7,7 +7,20 @@ import re
 
 
 def home(request):
-    pass
+    if request.method == 'POST':
+        form = ParsingForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            salary = form.cleaned_data['salary']
+            experience = form.cleaned_data['experience']
+            area = form.cleaned_data['area']
+            get_vacancies(name, salary, experience, area)
+
+            return redirect('result')
+
+    else:
+        form = ParsingForm()
+        return render(request, 'home.html', {'form': form})
 
 
 def result(request):
