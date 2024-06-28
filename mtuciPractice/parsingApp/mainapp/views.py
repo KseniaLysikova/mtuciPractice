@@ -24,7 +24,17 @@ def home(request):
 
 
 def result(request):
-    pass
+    vacancies = Job.objects.all()
+
+    total_vacancies = vacancies.count()
+
+    context = {
+        'form': form,
+        'vacancies': vacancies,
+        'total_vacancies': total_vacancies,
+    }
+
+    return render(request, 'result.html', context)
 
 
 def get_vacancies(vacancy, salary, experience, area):
