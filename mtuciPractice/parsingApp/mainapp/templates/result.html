@@ -6,6 +6,11 @@
 <body>
     <h1>Search Result</h1>
 
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Фильтр</button>
+    </form>
+
     <h2>Statistics</h2>
     <ul>
         <li>Total vacancies: {{ total_vacancies }}</li>

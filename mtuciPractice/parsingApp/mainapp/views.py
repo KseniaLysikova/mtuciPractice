@@ -24,7 +24,14 @@ def home(request):
 
 
 def result(request):
+    form = VacancyFilterForm(request.GET or None)
     vacancies = Job.objects.all()
+
+    if form.is_valid():
+        name = form.cleaned_data.get('name')
+        salary = form.cleaned_data.get('salary')
+
+        vacancies = vacancies.filter(name__icontains=name, salary__gte=salary,)
 
     total_vacancies = vacancies.count()
 

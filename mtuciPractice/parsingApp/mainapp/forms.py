@@ -21,3 +21,10 @@ class ParsingForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ('name', 'salary', 'experience', 'area',)
+
+
+class VacancyFilterForm(forms.ModelForm):
+
+    class Meta:
+        model = Job
+        fields = ('name', 'salary')
