@@ -1,27 +1,101 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title>Search Result</title>
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .stats, .vacancies-list {
+            margin-bottom: 20px;
+        }
+        .vacancy {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .vacancy h3 {
+            margin-top: 0;
+        }
+        .vacancy p {
+            margin: 5px 0;
+        }
+        .vacancy .label {
+            font-weight: bold;
+        }
+        .form-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            max-width: 400px;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Search Result</h1>
+    <h1>Vacancy search results</h1>
 
-    <form method="get">
-        {{ form.as_p }}
-        <button type="submit">Фильтр</button>
-    </form>
+    <div class="form-container">
+        <form method="get">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
-    <h2>Statistics</h2>
-    <ul>
-        <li>Total vacancies: {{ total_vacancies }}</li>
+    <div class="stats">
+        <h2>Statistics</h2>
+        <ul>
+            <li>Total: {{ total_vacancies}}</li>
+        </ul>
+    </div>
 
-    </ul>
-
-    <h2>List of Vacancies</h2>
-    <ul>
+    <div class="vacancies-list">
+        <h2>Vacancy list</h2>
         {% for vacancy in vacancies %}
-            <li>{{ vacancy.name }}</li>
+            <div class="vacancy">
+                <h3>{{ vacancy.name }}</h3>
+                <p><span class="label">Salary:</span> {{ vacancy.salary }}</p>
+                <p><span class="label">Description:</span> {{ vacancy.description }}</p>
+                <p><span class="label">Experience:</span> {{ vacancy.experience }}</p>
+                <p><span class="label">Required skills:</span> {{ vacancy.skills }}</p>
+                <p><span class="label">Work format:</span> {{ vacancy.work_format }}</p>
+                <p><span class="label">Employer:</span> {{ vacancy.employer }}</p>
+                <p><span class="label">Area:</span> {{ vacancy.area }}</p>
+                <p><span class="label">URL:</span> <a href="{{ vacancy.url }}" target="_blank">{{ vacancy.url }}</a></p>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </body>
 </html>
