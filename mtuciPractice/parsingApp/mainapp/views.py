@@ -27,11 +27,33 @@ def result(request):
     form = VacancyFilterForm(request.GET or None)
     vacancies = Job.objects.all()
 
-    if form.is_valid():
-        name = form.cleaned_data.get('name')
-        salary = form.cleaned_data.get('salary')
+    experience_choices = [
+        ('noExperience', 'Нет опыта'),
+        ('between1And3', 'От 1 года до 3 лет'),
+        ('between3And6', 'От 3 до 6 лет'),
+        ('moreThan6', 'Более 6 лет')
+    ]
 
-        vacancies = vacancies.filter(name__icontains=name, salary__gte=salary,)
+    if form.is_valid():
+        name = form.cleaned_data.get('name', '')
+        salary = form.cleaned_data.get('salary', 0)
+        area = form.cleaned_data.get('area', '')
+        experience = form.cleaned_data.get('experience', '')
+
+        filters = {}
+        if name:
+            filters['name__icontains'] = name
+        if salary:
+            filters['salary__gte'] = salary
+        if area:
+            filters['area__icontains'] = area
+        if experience:
+            for choice in experience_choices:
+                if experience == choice[0]:
+                    filters['experience__icontains'] = choice[1]
+                    break
+
+        vacancies = vacancies.filter(**filters)
 
     total_vacancies = vacancies.count()
 
