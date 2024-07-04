@@ -31,7 +31,7 @@ class VacancyFilterForm(forms.ModelForm):
         ('moreThan6', 'Более 6 лет')
     ]
     experience = forms.ChoiceField(choices=EXPERIENCE_CHOICES)
-    name = forms.CharField(required=True)
+    name = forms.CharField(required=False)
     salary = forms.IntegerField(required=False)
     area = forms.CharField(required=False)
 
