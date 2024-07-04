@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ParsingForm
+from .forms import ParsingForm, VacancyFilterForm
+from django.utils.http import urlencode
 from .models import Job
 import requests
 import json
